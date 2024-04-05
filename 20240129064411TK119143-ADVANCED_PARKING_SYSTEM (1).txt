@@ -1,0 +1,315 @@
+#include <LiquidCrystal.h>
+#include <Servo.h>
+int ir1 = 2;
+int ir2 = 3;
+int ir3 = 4;
+int ir4 = 5;
+int ir5 = 6;
+int ir6 = 7;
+int ir7 = 8;
+int ir8 = 9;
+int ir9 = 10;
+int ir10 = 11;
+int ir11 = 12;
+int ledg1 = 22;
+int ledg2 = 23;
+int ledg3 = 24;
+int ledg4 = 25;
+int ledr1 = 26;
+int ledr2 = 27;
+int ledr3 = 28;
+int ledr4 = 29;
+int buzzer1 = 30;
+int buzzer2 = 31;
+String uno;
+String uno1;
+const int rs = A6, en = A5, d4 = A1, d5 = A2, d6 = A3, d7 = A4;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+Servo myservo1;
+Servo myservo2;
+Servo myservo3;
+int servo1 = 32;
+int servo2 = 33;
+int servo3 = 34;
+int cmd1;
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  pinMode(ir1, INPUT);
+  pinMode(ir2, INPUT);
+  pinMode(ir3, INPUT);
+  pinMode(ir4, INPUT);
+  pinMode(ir5, INPUT);
+  pinMode(ir6, INPUT);
+  pinMode(ir7, INPUT);
+  pinMode(ir8, INPUT);
+  pinMode(ir9, INPUT);
+  pinMode(ir10, INPUT);
+  pinMode(ir11, INPUT);
+  pinMode(ledg1, OUTPUT);
+  pinMode(ledg2, OUTPUT);
+  pinMode(ledg3, OUTPUT);
+  pinMode(ledg4, OUTPUT);
+  pinMode(ledr1, OUTPUT);
+  pinMode(ledr2, OUTPUT);
+  pinMode(ledr3, OUTPUT);
+  pinMode(ledr4, OUTPUT);
+  pinMode(buzzer1, OUTPUT);
+  pinMode(buzzer2, OUTPUT);
+  myservo1.attach(servo1);
+  myservo2.attach(servo2);
+  myservo3.attach(servo3);
+  digitalWrite(buzzer1, LOW);
+  digitalWrite(buzzer2, LOW);
+  digitalWrite(ledg1, HIGH);
+  digitalWrite(ledg2, HIGH);
+  digitalWrite(ledg3, HIGH);
+  digitalWrite(ledg4, HIGH);
+  digitalWrite(ledr1, LOW);
+  digitalWrite(ledr2, LOW);
+  digitalWrite(ledr3, LOW);
+  digitalWrite(ledr4, LOW);
+  lcd.setCursor(0, 0);
+  lcd.print("ADVANCED PARKING");
+  lcd.setCursor(0, 1);
+  lcd.print("SYSTEM USING IOT");
+  delay(1000);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n');
+    //        Serial.println(command);
+    int command1 = command.toInt();
+
+    if (command1 == 1) {
+      //  Serial.println("led is high");
+      digitalWrite(ledg1, LOW);
+      digitalWrite(ledr1, HIGH);
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("SLOT1 BOOKED");
+      
+//       int irv1=1;
+      //      irv2 = 0;
+      //      slot1=irv1;
+    } else if (command1 == 2) {
+
+      digitalWrite(ledg2, LOW);
+      digitalWrite(ledr2, HIGH);
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("SLOT2 BOOKED");
+//            irv2 = 1;
+      //      slot2=irv4;
+    } else if (command1 == 3) { 
+
+      digitalWrite(ledg3, LOW);
+      digitalWrite(ledr3, HIGH);
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("SLOT3 BOOKED");
+//            irv3 = 1;
+      //      slot3=irv6;
+    } else if (command1 == 4) {
+
+      digitalWrite(ledg4, LOW);
+      digitalWrite(ledr4, HIGH);
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("SLOT4 BOOKED");
+      //      irv8 = 0;
+      //      slot4=irv8;
+    } else if (command1 == 11) {
+
+      digitalWrite(ledg1, HIGH);
+      digitalWrite(ledr1, LOW);
+    } else if (command1 == 22) {
+      digitalWrite(ledg2, HIGH);
+      digitalWrite(ledr2, LOW);
+    } else if (command1 == 33) {
+      digitalWrite(ledg3, HIGH);
+      digitalWrite(ledr3, LOW);
+    } else if (command1 == 44) {
+      digitalWrite(ledg4, HIGH);
+      digitalWrite(ledr4, LOW);
+    }
+    cmd1=command1;
+  }
+  
+  delay(2000);
+  int irv1 = digitalRead(ir1);
+  int irv2 = digitalRead(ir2);
+  int irv3 = digitalRead(ir3);
+  int irv4 = digitalRead(ir4);
+  int irv5 = digitalRead(ir5);
+  int irv6 = digitalRead(ir6);
+  int irv7 = digitalRead(ir7);
+  int irv8 = digitalRead(ir8);
+  int irv9 = digitalRead(ir9);
+  int irv10 = digitalRead(ir10);
+  int irv11 = digitalRead(ir11);
+  if (irv1 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("ENTRY GATES OPEN");
+    lcd.setCursor(0, 1);
+    lcd.print("VECHILE ENTER");
+    myservo1.write(90);
+    //    Serial.println("entry gate1 open");
+  } else if (irv10 == 0) {
+    delay(1000);
+    myservo2.write(0);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("UPSTAIR GATEOPEN");
+    //    Serial.println("upstair gate open");
+    //    Serial.println(irv10);
+  } else if (irv11 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("EXIST");
+    lcd.setCursor(0, 1);
+    lcd.print("GATES OPEN");
+    //    Serial.println("exist gate is open");
+    //    Serial.println(irv11);
+    myservo3.write(0);
+  } else {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("GATES IS CLOSE");
+    myservo1.write(0);
+    myservo2.write(90);
+    myservo3.write(90);
+    //    Serial.println("gate close");
+    //    Serial.println(irv1);
+  }
+  if (irv2 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("slot1");
+    lcd.setCursor(0, 1);
+    lcd.print("vechile parked");
+    //    Serial.println("slot1 is parked");
+    //    Serial.println(irv2);
+    digitalWrite(ledg1, LOW);
+    digitalWrite(ledr1, HIGH);
+    digitalWrite(buzzer1, HIGH);
+    delay(150);
+    digitalWrite(buzzer1, LOW);
+  } else if (irv4 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("slot2");
+    lcd.setCursor(0, 1);
+    lcd.print("vechile parked");
+    //    Serial.println("slot2 is parked");
+    //    Serial.println(irv4);
+    digitalWrite(ledg2, LOW);
+    digitalWrite(ledr2, HIGH);
+    digitalWrite(buzzer1, HIGH);
+    delay(150);
+    digitalWrite(buzzer1, LOW);
+  } else if (irv6 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("slot3");
+    lcd.setCursor(0, 1);
+    lcd.print("vechile parked");
+    //    Serial.println("slot3 parked");
+    //    Serial.println(irv6);
+    digitalWrite(ledg3, LOW);
+    digitalWrite(ledr3, HIGH);
+    digitalWrite(buzzer2, HIGH);
+    delay(150);
+    digitalWrite(buzzer2, LOW);
+  } else if (irv8 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("slot4");
+    lcd.setCursor(0, 1);
+    lcd.print("vechile parked");
+    //    Serial.println("slot4 is parked");
+    //    Serial.println(irv8);
+    digitalWrite(ledg4, LOW);
+    digitalWrite(ledr4, HIGH);
+    digitalWrite(buzzer2, HIGH);
+    delay(150);
+    digitalWrite(buzzer2, LOW);
+  } else if (irv3 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("vechile worng");
+    lcd.setCursor(0, 1);
+    lcd.print("parked");
+    //    Serial.println("slot1 is wrong parking");
+    //    Serial.println(irv3);
+    digitalWrite(buzzer1, HIGH);
+    delay(3000);
+    digitalWrite(buzzer1, LOW);
+  }  else if (irv5 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("vechile worng");
+    lcd.setCursor(0, 1);
+    lcd.print("parked");
+    //    Serial.println("slot2 wrong parking");
+    //    Serial.println(irv5);
+    digitalWrite(buzzer1, HIGH);
+    delay(3000);
+    digitalWrite(buzzer1, LOW);
+  } else if (irv7 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("vechile worng");
+    lcd.setCursor(0, 1);
+    lcd.print("parked");
+    //    Serial.println("slot3 is wrong parked");
+    //    Serial.println(irv7);
+    digitalWrite(buzzer2, HIGH);
+    delay(3000);
+    digitalWrite(buzzer2, LOW);
+  }  else if (irv9 == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("vechile worng");
+    lcd.setCursor(0, 1);
+    lcd.print("parked");
+    //    Serial.println("slot4 is wrong parked");
+    //    Serial.println(irv9);
+    digitalWrite(buzzer2, HIGH);
+    delay(3000);
+    digitalWrite(buzzer2, LOW);
+  }else
+   if (irv2 == 1 && cmd1 == 11) {
+    digitalWrite(ledg1, HIGH);
+    digitalWrite(ledr1, LOW);
+    digitalWrite(buzzer1, HIGH);
+    delay(500);
+    digitalWrite(buzzer1, LOW);
+  } else if (irv4 == 1 && cmd1 == 22) {
+    digitalWrite(ledg2, HIGH);
+    digitalWrite(ledr2, LOW);
+    digitalWrite(buzzer1, HIGH);
+    delay(500);
+    digitalWrite(buzzer1, LOW);
+  }else if (irv6 == 1 && cmd1 == 33) {
+    digitalWrite(ledg3, HIGH);
+    digitalWrite(ledr3, LOW);
+    digitalWrite(buzzer2, HIGH);
+    delay(500);
+    digitalWrite(buzzer2, LOW);
+  }else if (irv8 == 1 && cmd1 == 44) {
+    digitalWrite(ledg4, HIGH);
+    digitalWrite(ledr4, LOW);
+    digitalWrite(buzzer2, HIGH);
+    delay(500);
+    digitalWrite(buzzer2, LOW);
+  }
+
+uno = "a" + String(irv2) + "b" + String(irv4) +  "c" + String(irv6) +  "d" + String(irv8) +  "e";
+Serial.println(uno);
+
+delay(1000);
+// Your other code for handling IR sensors can go here
+}

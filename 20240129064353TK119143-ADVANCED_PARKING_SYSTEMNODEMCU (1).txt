@@ -1,0 +1,96 @@
+
+#define BLYNK_TEMPLATE_ID "TMPL3UWonsh-H"
+#define BLYNK_TEMPLATE_NAME "parking"
+#define BLYNK_AUTH_TOKEN "7gjGBkGA298F3i31RJYZ_QcETk85maw1"
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+char ssid[] = "Lora";
+char pass[] = "123456789";
+int da;
+int db;
+int dc;
+int dd;
+BLYNK_WRITE(V5) {
+  int switchStatus1 = param.asInt();
+  Serial.println(switchStatus1);
+  if (switchStatus1 == 0) {
+    Serial.println("1");
+  } else {
+    Serial.println("11");
+  }
+}
+BLYNK_WRITE(V6) {
+  int switchStatus2 = param.asInt();
+  Serial.println(switchStatus2);
+  if (switchStatus2 == 0) {
+    Serial.println("2");
+  } else {
+    Serial.println("22");
+  }
+}
+BLYNK_WRITE(V7) {
+  int switchStatus3 = param.asInt();
+  Serial.println(switchStatus3);
+  if (switchStatus3 == 0) {
+    Serial.println("3");
+  } else {
+    Serial.println("33");
+  }
+}
+BLYNK_WRITE(V8) {
+  int switchStatus4 = param.asInt();
+  Serial.println(switchStatus4);
+  if (switchStatus4 == 0) {
+    Serial.println("4");
+  } else {
+    Serial.println("44");
+  }
+}
+BlynkTimer timer;
+void myTimer() {
+  Blynk.virtualWrite(V1, da);
+  Blynk.virtualWrite(V2, db);
+  Blynk.virtualWrite(V3, dc);
+  Blynk.virtualWrite(V4, dd);
+}
+void setup() {
+  Serial.begin(9600);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+  timer.setInterval(1000L, myTimer);
+  delay(3000);
+  Send();
+}
+void loop() {
+  while (Serial.available() > 0) {
+    Serial.write(Serial.read());
+  }
+  if (Serial.read() == 'a')
+    ;  //// full string
+  {
+    String uno = Serial.readString();
+    String a = uno.substring(1, 2);
+    da = a.toInt();
+    // Serial.println(da);
+    String b = uno.substring(3, 4);
+    db = b.toInt();
+    // Serial.println(db);
+    String c = uno.substring(5, 6);
+    dc = c.toInt();
+    // Serial.println(dc);
+    String d = uno.substring(7, 8);
+    dd = d.toInt();
+    // Serial.println(dd);
+  }
+  delay(1000);
+  Blynk.run();
+  // delay(1000);
+  timer.run();
+}
+void Send() {
+  // Serial.println(dd);
+  Blynk.virtualWrite(V5, 1);
+  Blynk.virtualWrite(V6, 1);
+  Blynk.virtualWrite(V7, 1);
+  Blynk.virtualWrite(V8, 1);
+}
