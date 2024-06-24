@@ -4,7 +4,6 @@
 
 <img src="https://cybersnowden.com/wp-content/uploads/2023/04/SMART-Parking.png" alt="Image" width="100%" height="auto">
 
-
 ## Project Overview
 
 The increasing metropolitan cities and the growing number of vehicles have led to significant challenges in managing parking spaces effectively and ensuring the security of parked vehicles. To address these issues, we propose a comprehensive prototype of an Advanced Parking System that utilizes an IoT model and framework. This project aims to provide a seamless parking experience for users while optimizing parking space utilization and enhancing overall security measures.
